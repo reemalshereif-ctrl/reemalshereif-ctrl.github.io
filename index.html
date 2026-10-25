@@ -342,6 +342,13 @@ html[data-lang="ar"] .tool h3{font-size:19px}
   var CFG={GA4:"",PIXEL:"",EMAIL:"reemalshereif@gmail.com",ENDPOINT:"https://formsubmit.co/ajax/reemalshereif@gmail.com",BOOK_BRAND:"https://calendly.com/reemalshereif/growth-session",BOOK_1TO1:"https://calendly.com/reemalshereif/1-1-consultation"};
   /* booking pages: paste a Google Calendar appointment page or Cal.com link and the matching buttons open it in a new tab */
   document.querySelectorAll("[data-book]").forEach(function(a){var u=a.getAttribute("data-book")==="brand"?CFG.BOOK_BRAND:CFG.BOOK_1TO1;if(u){a.href=u;a.target="_blank";a.rel="noopener";a.removeAttribute("data-want")}});
+  /* UTMs: every outbound button carries where the visit came from. Incoming utm_* (e.g. from the Instagram bio) is kept, otherwise it is tagged as portfolio. utm_content is the button name. */
+  var qs=new URLSearchParams(location.search),U={source:qs.get('utm_source')||'portfolio',medium:qs.get('utm_medium')||'website',campaign:qs.get('utm_campaign')||'landing_page'};
+  try{if(qs.get('utm_source')){sessionStorage.setItem('reem-utm',JSON.stringify(U))}else{var sv=sessionStorage.getItem('reem-utm');if(sv)U=JSON.parse(sv)}}catch(e){}
+  document.querySelectorAll('a[href^="http"]').forEach(function(a){
+    if(/ig\.me/.test(a.href))return;
+    try{var u=new URL(a.href);u.searchParams.set('utm_source',U.source);u.searchParams.set('utm_medium',U.medium);u.searchParams.set('utm_campaign',U.campaign);u.searchParams.set('utm_content',a.getAttribute('data-track')||'link');a.href=u.toString()}catch(e){}
+  });
 
   function track(n,p){try{if(window.gtag)gtag('event',n,p||{});if(window.fbq)fbq('trackCustom',n,p||{});}catch(e){}}
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-track]');if(a)track(a.getAttribute('data-track'),{label:(a.textContent||'').trim().slice(0,40)});});
@@ -372,7 +379,7 @@ html[data-lang="ar"] .tool h3{font-size:19px}
     var n=document.getElementById('n').value.trim(),em=document.getElementById('em').value.trim(),c=document.getElementById('c').value.trim();
     var bad=ar?'حدث خطأ. حاول مرة أخرى أو راسلني مباشرة على البريد.':'Something went wrong. Please try again or email me directly.';
     send.disabled=true;ok.textContent=ar?'جارٍ الإرسال...':'Sending...';
-    fetch(CFG.ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({name:n,email:em,business:val('b'),want:val('w'),challenge:c,language:ar?'Arabic':'English',_subject:'New request from decodedbyreem: '+val('w'),_template:'table'})})
+    fetch(CFG.ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({name:n,email:em,business:val('b'),want:val('w'),challenge:c,language:ar?'Arabic':'English',source:U.source,medium:U.medium,campaign:U.campaign,_subject:'New request from decodedbyreem: '+val('w'),_template:'table'})})
       .then(function(r){return r.json().catch(function(){return{}}).then(function(j){return r.ok&&String(j.success)!=='false'})})
       .then(function(good){ok.textContent=good?(ar?'تم الإرسال ✓ سأردّ عليك قريبًا':'Sent ✓ I will reply soon'):bad;if(good)f.reset();send.disabled=false})
       .catch(function(){ok.textContent=bad;send.disabled=false});
