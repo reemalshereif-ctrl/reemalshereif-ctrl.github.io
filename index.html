@@ -212,6 +212,10 @@ html[data-lang="ar"] .path h3{font-size:20px}
 .num{width:38px;height:38px;font-size:15px;border-radius:11px;margin-bottom:10px}
 .tool .num{margin-bottom:8px}
 html[data-lang="ar"] .tool h3{font-size:19px}
+.side{display:grid;gap:22px;align-content:start}
+.side .find{margin-top:0}
+.side .card h3{font-size:24px}
+.card input[type=email]{width:100%}
 </style>
 
 <div class="wrap">
@@ -289,7 +293,8 @@ html[data-lang="ar"] .tool h3{font-size:19px}
         <span data-l="ar">كل أسبوع تعمل فيه إعلاناتك دون Tracking واضح هو ميزانية لا تعود إليك. أخبرني بما يحدث، وسأحدد لك ما أبدأ بفحصه. أقرأ كل رسالة بنفسي.</span></p></div>
     <div class="book">
       <form class="card" id="f" autocomplete="off">
-        <div class="field"><label for="n"><span data-l="en">Your name</span><span data-l="ar">الاسم</span></label><input id="n" type="text" dir="auto"></div>
+        <div class="field"><label for="n"><span data-l="en">Your name</span><span data-l="ar">الاسم</span></label><input id="n" name="name" type="text" dir="auto" required></div>
+        <div class="field"><label for="em"><span data-l="en">Your email</span><span data-l="ar">البريد الإلكتروني</span></label><input id="em" name="email" type="email" required dir="ltr" autocomplete="email" placeholder="you@brand.com"></div>
         <div class="field"><label><span data-l="en">Business type</span><span data-l="ar">نوع النشاط</span></label>
           <div class="pick" role="radiogroup">
             <input type="radio" name="b" id="b1" value="E-commerce" checked><label for="b1"><span data-l="en">E-commerce</span><span data-l="ar">تجارة إلكترونية</span></label>
@@ -305,19 +310,21 @@ html[data-lang="ar"] .tool h3{font-size:19px}
             <input type="radio" name="w" id="w3" value="Just a question"><label for="w3"><span data-l="en">Just a question</span><span data-l="ar">لدي سؤال فقط</span></label>
           </div></div>
         <div class="field" style="margin-bottom:0"><label for="c"><span data-l="en">Main challenge</span><span data-l="ar">التحدي الرئيسي</span></label><textarea id="c" dir="auto"></textarea></div>
-      </form>
-      <div>
-        <div class="msg" id="out" aria-live="polite"></div>
-        <div class="row" style="margin-top:16px">
-          <button class="btn" type="button" id="send" hidden data-track="form_send"><span data-l="en">Send message</span><span data-l="ar">إرسال الرسالة</span></button>
-          <a class="btn" id="mail" hidden href="#" data-track="form_email"><span data-l="en">Send by email</span><span data-l="ar">إرسال عبر البريد</span></a>
-          <button class="btn" type="button" id="copy" data-track="form_copy"><span data-l="en">Copy message</span><span data-l="ar">نسخ الرسالة</span></button>
-          <a class="btn amber" href="https://ig.me/m/decodedbyreem" target="_blank" rel="noopener" data-track="form_instagram"><span data-l="en">Open Instagram DM</span><span data-l="ar">فتح رسائل Instagram</span></a>
-        </div>
+      <div class="row" style="margin-top:18px"><button class="btn amber" type="submit" id="send" data-track="form_send"><span data-l="en">Send message</span><span data-l="ar">إرسال الرسالة</span></button></div>
         <p class="ok" id="ok" role="status"></p>
-        <p class="hint"><span data-l="en">After copying, paste it into the chat and send.</span><span data-l="ar">بعد النسخ، الصق الرسالة في المحادثة وأرسلها.</span></p>
+        <input type="text" name="_honey" id="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+      </form>
+      <div class="side">
+        <div class="card">
+          <h3><span data-l="en">Prefer to pick a time?</span><span data-l="ar">تفضّل اختيار موعد؟</span></h3>
+          <p style="margin:0 0 14px"><span data-l="en">Book straight into my calendar.</span><span data-l="ar">احجز مباشرة في تقويمي.</span></p>
+          <div class="row">
+            <a class="btn" href="https://calendly.com/reemalshereif/growth-session" target="_blank" rel="noopener" data-book="brand" data-track="contact_book_growth"><span data-l="en">Book a Growth Session</span><span data-l="ar">احجز جلسة نمو</span></a>
+            <a class="btn amber" href="https://calendly.com/reemalshereif/1-1-consultation" target="_blank" rel="noopener" data-book="1to1" data-track="contact_book_1to1"><span data-l="en">Book a 1:1 consultation</span><span data-l="ar">احجز استشارة فردية</span></a>
+          </div>
+        </div>
         <div class="find"><span class="eyebrow"><span data-l="en">Find me on</span><span data-l="ar">تجدني على</span></span>
-          <div class="row"><a class="btn plain sm" href="https://www.instagram.com/decodedbyreem/" target="_blank" rel="noopener" data-track="social_instagram">Instagram</a></div></div>
+          <div class="row"><a class="btn plain sm" href="https://www.instagram.com/decodedbyreem/" target="_blank" rel="noopener" data-track="social_instagram">Instagram</a><a class="btn plain sm" href="https://www.tiktok.com/@decodedbyreem" target="_blank" rel="noopener" data-track="social_tiktok">TikTok</a><a class="btn plain sm" href="mailto:reemalshereif@gmail.com" data-track="social_email">reemalshereif@gmail.com</a></div></div>
       </div>
     </div>
   </section>
@@ -332,7 +339,7 @@ html[data-lang="ar"] .tool h3{font-size:19px}
 <script>
 (function(){
   /* Settings for the hosted version. Leave empty here. GA4 and PIXEL turn on click tracking, EMAIL shows a "Send by email" button, ENDPOINT sends the form to your inbox. */
-  var CFG={GA4:"",PIXEL:"",EMAIL:"reemalshereif@gmail.com",ENDPOINT:"",BOOK_BRAND:"https://calendly.com/reemalshereif/growth-session",BOOK_1TO1:"https://calendly.com/reemalshereif/1-1-consultation"};
+  var CFG={GA4:"",PIXEL:"",EMAIL:"reemalshereif@gmail.com",ENDPOINT:"https://formsubmit.co/ajax/reemalshereif@gmail.com",BOOK_BRAND:"https://calendly.com/reemalshereif/growth-session",BOOK_1TO1:"https://calendly.com/reemalshereif/1-1-consultation"};
   /* booking pages: paste a Google Calendar appointment page or Cal.com link and the matching buttons open it in a new tab */
   document.querySelectorAll("[data-book]").forEach(function(a){var u=a.getAttribute("data-book")==="brand"?CFG.BOOK_BRAND:CFG.BOOK_1TO1;if(u){a.href=u;a.target="_blank";a.rel="noopener";a.removeAttribute("data-want")}});
 
@@ -356,38 +363,20 @@ html[data-lang="ar"] .tool h3{font-size:19px}
   document.querySelectorAll('.lang').forEach(function(b){b.addEventListener('click',function(){setLang(root.getAttribute('data-lang')==='ar'?'en':'ar')})});
 
   function val(name){var e=f.querySelector('input[name="'+name+'"]:checked');return e?e.value:''}
-  function build(){
-    var n=document.getElementById('n').value.trim(),c=document.getElementById('c').value.trim();
-    var ar=root.getAttribute('data-lang')==='ar';
-    var VA={'E-commerce':'تجارة إلكترونية','Clinic':'عيادة','B2B / Lead gen':'B2B / Lead gen','Marketer':'مسوّق','Consultation':'استشارة للعلامة التجارية','1:1 Consultation':'استشارة فردية','Just a question':'سؤال'};
-    var t=ar?('مرحبًا ريم،\nالاسم: '+(n||'...')+'\nالنشاط: '+(VA[val('b')]||val('b'))+'\nأرغب في: '+(VA[val('w')]||val('w'))+'\nالتحدي: '+(c||'...')):('Hi Reem,\nName: '+(n||'...')+'\nBusiness: '+val('b')+'\nI want: '+val('w')+'\nChallenge: '+(c||'...'));
-    out.textContent=t;
-    var m=document.getElementById('mail');
-    if(CFG.EMAIL){m.hidden=false;m.href='mailto:'+CFG.EMAIL+'?subject='+encodeURIComponent('Consultation request')+'&body='+encodeURIComponent(t)}
-    return t;
-  }
-  f.addEventListener('input',build);f.addEventListener('change',build);build();
-
-  /* preselect "I want" from the offer buttons */
-  document.addEventListener('click',function(e){
-    var a=e.target.closest&&e.target.closest('[data-want]');if(!a)return;
-    var r=f.querySelector('input[name="w"][value="'+a.getAttribute('data-want')+'"]');if(r){r.checked=true;build()}
+  function build(){}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ar=root.getAttribute('data-lang')==='ar',send=document.getElementById('send');
+    if(!f.checkValidity()){f.reportValidity();return}
+    if(document.getElementById('hp').value)return;
+    var n=document.getElementById('n').value.trim(),em=document.getElementById('em').value.trim(),c=document.getElementById('c').value.trim();
+    var bad=ar?'حدث خطأ. حاول مرة أخرى أو راسلني مباشرة على البريد.':'Something went wrong. Please try again or email me directly.';
+    send.disabled=true;ok.textContent=ar?'جارٍ الإرسال...':'Sending...';
+    fetch(CFG.ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({name:n,email:em,business:val('b'),want:val('w'),challenge:c,language:ar?'Arabic':'English',_subject:'New request from decodedbyreem: '+val('w'),_template:'table'})})
+      .then(function(r){return r.json().catch(function(){return{}}).then(function(j){return r.ok&&String(j.success)!=='false'})})
+      .then(function(good){ok.textContent=good?(ar?'تم الإرسال ✓ سأردّ عليك قريبًا':'Sent ✓ I will reply soon'):bad;if(good)f.reset();send.disabled=false})
+      .catch(function(){ok.textContent=bad;send.disabled=false});
   });
-
-  document.getElementById('copy').addEventListener('click',function(){
-    var t=build(),ar=root.getAttribute('data-lang')==='ar';
-    function done(m){ok.textContent=m}
-    function fallback(){var r=document.createRange();r.selectNodeContents(out);var s=getSelection();s.removeAllRanges();s.addRange(r);done(ar?'تم التحديد. اضغط Ctrl+C':'Selected. Press Ctrl+C or Cmd+C')}
-    try{navigator.clipboard.writeText(t).then(function(){done(ar?'تم النسخ ✓':'Copied ✓')},fallback)}catch(e){fallback()}
-  });
-
-  var send=document.getElementById('send');
-  if(CFG.ENDPOINT){send.hidden=false;send.addEventListener('click',function(){
-    var ar=root.getAttribute('data-lang')==='ar',t=build();
-    fetch(CFG.ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({name:document.getElementById('n').value,business:val('b'),want:val('w'),challenge:document.getElementById('c').value,message:t})})
-      .then(function(r){ok.textContent=r.ok?(ar?'تم الإرسال ✓ سأردّ عليك قريبًا':'Sent ✓ I will reply soon'):(ar?'حدث خطأ، جرّب نسخ الرسالة':'Something went wrong, try copying the message')})
-      .catch(function(){ok.textContent=ar?'حدث خطأ، جرّب نسخ الرسالة':'Something went wrong, try copying the message'});
-  })}
 
   /* count-up: final numbers are already in the HTML, this only plays a short run on first view */
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
