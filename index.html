@@ -216,6 +216,9 @@ html[data-lang="ar"] .tool h3{font-size:19px}
 .side .find{margin-top:0}
 .side .card h3{font-size:24px}
 .card input[type=email]{width:100%}
+.wl{display:flex;flex-direction:column;gap:10px}
+.wl input[type=email]{width:100%;font:500 15px/1.2 var(--sans,inherit);padding:12px 14px;border:3px solid var(--edge);border-radius:14px;background:var(--bg);color:var(--ink)}
+.wl .btn{align-self:flex-start}
 </style>
 
 <div class="wrap">
@@ -251,7 +254,12 @@ html[data-lang="ar"] .tool h3{font-size:19px}
         <span class="kicker"><span data-l="en">Coming soon</span><span data-l="ar">قريبًا</span></span>
         <h3><span data-l="en">Courses and learning</span><span data-l="ar">الدورات والتعلّم</span></h3>
         <p><span data-l="en">Courses on paid media and AI automation are on the way. Join the waitlist and hear first.</span><span data-l="ar">دورات في الإعلانات المدفوعة وأتمتة العمل بالذكاء الاصطناعي في الطريق إليك. انضم إلى قائمة الانتظار لتكون أول من يعلم.</span></p>
-        <div class="row" style="margin-top:auto"><a class="btn sage" href="https://ig.me/m/decodedbyreem?ref=waitlist" target="_blank" rel="noopener" data-track="hero_waitlist"><span data-l="en">Join the waitlist</span><span data-l="ar">انضم إلى قائمة الانتظار</span></a></div>
+        <form class="wl" id="wl" style="margin-top:auto" autocomplete="off">
+          <input id="wle" type="email" required dir="ltr" autocomplete="email" placeholder="you@email.com" aria-label="Email">
+          <input type="text" id="wlh" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+          <button class="btn sage" type="submit" data-track="hero_waitlist"><span data-l="en">Join the waitlist</span><span data-l="ar">انضم إلى قائمة الانتظار</span></button>
+          <p class="ok" id="wlok" role="status"></p>
+        </form>
       </div>
     </div>
   </header>
@@ -388,6 +396,20 @@ html[data-lang="ar"] .tool h3{font-size:19px}
       .catch(function(){ok.textContent=bad;send.disabled=false});
   });
 
+
+  var wl=document.getElementById('wl');
+  if(wl)wl.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ar=root.getAttribute('data-lang')==='ar',b=wl.querySelector('button'),m=document.getElementById('wlok');
+    if(!wl.checkValidity()){wl.reportValidity();return}
+    if(document.getElementById('wlh').value)return;
+    var bad=ar?'حدث خطأ. حاول مرة أخرى.':'Something went wrong. Please try again.';
+    b.disabled=true;m.textContent=ar?'جارٍ الإرسال...':'Sending...';
+    fetch(CFG.ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({email:document.getElementById('wle').value.trim(),list:'Courses waitlist',language:ar?'Arabic':'English',source:U.source,medium:U.medium,_subject:'New waitlist signup (courses)',_template:'table'})})
+      .then(function(r){return r.json().catch(function(){return{}}).then(function(j){return r.ok&&String(j.success)!=='false'})})
+      .then(function(good){m.textContent=good?(ar?'تم الانضمام ✓ ستعلم أولًا':'You are in ✓ you will hear first'):bad;if(good)wl.reset();b.disabled=false})
+      .catch(function(){m.textContent=bad;b.disabled=false});
+  });
   /* count-up: final numbers are already in the HTML, this only plays a short run on first view */
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   var els=document.querySelectorAll('.count');
