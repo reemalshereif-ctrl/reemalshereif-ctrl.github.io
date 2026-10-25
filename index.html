@@ -344,6 +344,9 @@ html[data-lang="ar"] .tool h3{font-size:19px}
   document.querySelectorAll("[data-book]").forEach(function(a){var u=a.getAttribute("data-book")==="brand"?CFG.BOOK_BRAND:CFG.BOOK_1TO1;if(u){a.href=u;a.target="_blank";a.rel="noopener";a.removeAttribute("data-want")}});
   /* UTMs: every outbound button carries where the visit came from. Incoming utm_* (e.g. from the Instagram bio) is kept, otherwise it is tagged as portfolio. utm_content is the button name. */
   var qs=new URLSearchParams(location.search),U={source:qs.get('utm_source')||'portfolio',medium:qs.get('utm_medium')||'website',campaign:qs.get('utm_campaign')||'landing_page'};
+  if(!qs.get('utm_source')&&document.referrer){var rh='';try{rh=new URL(document.referrer).hostname}catch(e){}
+    var RM=[[/instagram\.com$/,'ig','bio'],[/tiktok\.com$/,'tiktok','bio'],[/linkedin\.com$/,'linkedin','profile'],[/(facebook|fb)\.com$/,'facebook','referral'],[/google\./,'google','organic']];
+    for(var k=0;k<RM.length;k++){if(RM[k][0].test(rh)){U={source:RM[k][1],medium:RM[k][2],campaign:'landing_page'};try{sessionStorage.setItem('reem-utm',JSON.stringify(U))}catch(e){}U._set=1;break}}}
   try{if(qs.get('utm_source')){sessionStorage.setItem('reem-utm',JSON.stringify(U))}else{var sv=sessionStorage.getItem('reem-utm');if(sv)U=JSON.parse(sv)}}catch(e){}
   document.querySelectorAll('a[href^="http"]').forEach(function(a){
     if(/ig\.me/.test(a.href))return;
