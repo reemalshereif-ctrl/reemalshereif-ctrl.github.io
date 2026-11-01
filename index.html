@@ -125,7 +125,9 @@ html[data-lang="ar"] .steps li::before{font-family:var(--mono);font-style:normal
 html[data-lang="ar"] .mark{direction:ltr}
 @media (max-width:560px){.steps li{grid-template-columns:44px 1fr}.final{padding:26px 20px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style></head>
+</style><script async src="https://www.googletagmanager.com/gtag/js?id=G-SMYLVZ87ED"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-SMYLVZ87ED");</script>
+</head>
 <body>
 <div class="wrap">
   <nav class="nav" aria-label="Main">
@@ -232,7 +234,7 @@ html[data-lang="ar"] .mark{direction:ltr}
   function track(n,p){try{if(window.gtag)gtag('event',n,p||{});if(window.fbq)fbq('trackCustom',n,p||{});}catch(e){}}
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-track]');if(a)track(a.getAttribute('data-track'),{label:(a.textContent||'').trim().slice(0,40)});});
   function addScript(src,code){var s=document.createElement('script');if(src){s.async=true;s.src=src}else s.text=code;document.head.appendChild(s)}
-  if(CFG.GA4){addScript('https://www.googletagmanager.com/gtag/js?id='+CFG.GA4);addScript(null,"window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','"+CFG.GA4+"');")}
+  if(CFG.GA4&&!window.gtag){addScript('https://www.googletagmanager.com/gtag/js?id='+CFG.GA4);addScript(null,"window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','"+CFG.GA4+"');")}
   if(CFG.PIXEL){addScript(null,"!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','"+CFG.PIXEL+"');fbq('track','PageView');")}
 
   var root=document.documentElement,f=document.getElementById('f'),ok=document.getElementById('ok');
